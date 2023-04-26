@@ -43,3 +43,62 @@ function ajaxRequest() {
 }
 
 ajaxRequest();
+
+function ajaxRequestDate(event) {
+  event.preventDefault();
+  const inputDate = event.target.elements.date.value;
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://api.nasa.gov/planetary/apod?api_key=6PtagfFhUrtJhGiexIbwapgwVFbcE8MGlKW0QG6L&date=' + inputDate);
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    const xhrResponse = xhr.response;
+    const $dateDiv = document.createElement('div');
+    $dateDiv.className = 'date';
+    $dateDiv.textContent = xhrResponse.date;
+    const $columnDate = document.querySelector('.column-date');
+    $columnDate.removeChild($columnDate.lastChild);
+    $columnDate.appendChild($dateDiv);
+
+    const $anchor = document.createElement('a');
+    $anchor.setAttribute('href', xhrResponse.hdurl);
+    const $image = document.createElement('img');
+    $image.setAttribute('src', xhrResponse.hdurl);
+    $anchor.appendChild($image);
+    const $columnPhoto = document.querySelector('.column-photo');
+    $columnPhoto.removeChild($columnPhoto.lastChild);
+    $columnPhoto.appendChild($anchor);
+
+    const $title = document.createElement('h3');
+    $title.setAttribute('class', 'title');
+    $title.textContent = xhrResponse.title;
+    const $titleDiv = document.querySelector('.column-full.tle');
+    $titleDiv.removeChild($titleDiv.lastChild);
+    $titleDiv.appendChild($title);
+
+    const $credit = document.createElement('p');
+    $credit.className = 'credit';
+    $credit.textContent = 'Image Credit & Copyright: ' + xhrResponse.copyright;
+    const $credDiv = document.querySelector('.column-full.cred');
+    $credDiv.removeChild($credDiv.lastChild);
+    $credDiv.appendChild($credit);
+
+    const $explanation = document.createElement('p');
+    $explanation.className = 'explanation';
+    $explanation.textContent = 'Explanation: ' + xhrResponse.explanation;
+    const $explDiv = document.querySelector('.column-full.expl');
+    $explDiv.removeChild($explDiv.lastChild);
+    $explDiv.appendChild($explanation);
+    $formDate.className = 'form-date hidden';
+  });
+  xhr.send();
+}
+const $dateForm = document.querySelector('form');
+$dateForm.addEventListener('submit', ajaxRequestDate);
+
+const $rowFooter = document.querySelector('.row-footer');
+const $formDate = document.querySelector('.form-date');
+$rowFooter.addEventListener('click', function (event) {
+  if (event.target.matches('.search')) {
+    $formDate.className = 'form-date';
+  }
+});

@@ -50,6 +50,62 @@ img {
   margin-top: 15px;
 }
 
+.form-date {
+  position: absolute;
+  width: 240px;
+  height: 200px;
+  background-color: rgba(2, 31, 75, 0.85);
+  border: solid 0.5px grey;
+  border-radius: 2px;
+  bottom: calc(30vh - 100px);
+  left: calc(50% - 120px);
+}
+
+form {
+  margin: auto;
+  text-align: center;
+  padding-top: 40px;
+  font-size: 14px;
+}
+
+input {
+  font-family: "Space Mono", sans-serif;
+  text-align: center;
+  margin: 12px 0;
+}
+
+#date {
+  background-color: transparent;
+  border: solid 0.5px grey;
+  color: lightgrey;
+  height: 35px;
+}
+
+.submit {
+  text-align: left;
+  margin-top: 5px;
+  background-color: #115268;
+  border: solid 0.5px grey;
+  color: white;
+  font-size: 10px;
+  padding: 5px;
+}
+
+.submit:hover {
+  background-color: #4c3b71;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+.search:hover,
+.favorites:hover {
+  cursor: pointer;
+  font-size: 12px;
+}
+
 @media screen and (min-width: 768px) {
   .row {
     flex-direction: row-reverse;
@@ -97,5 +153,9 @@ img {
 
   .row-footer {
     margin: 5px 0;
+  }
+
+  .form-date {
+    bottom: calc(50vh - 100px);
   }
 }
