@@ -1,0 +1,43 @@
+.row,
+.row-date,
+.row-footer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.column-full,
+.column-photo,
+.column-info,
+.column-date {
+  flex-basis: 100%;
+}
+
+.column-third {
+  flex-basis: calc(100%/3);
+}
+
+img {
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .column-photo,
+  .column-date {
+    flex-basis: 55%;
+  }
+
+  .column-info {
+    flex-basis: 40%;
+  }
+}
+
+@media screen and (min-width: 1152px) {
+  .column-photo,
+  .column-date {
+    flex-basis: 65%;
+  }
+
+  .column-info {
+    flex-basis: 31%;
+  }
+}
