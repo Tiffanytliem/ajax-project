@@ -20,7 +20,7 @@ h1 {
 }
 
 img {
-  height: 40vh;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -68,11 +68,12 @@ img {
 
   h1 {
     font-size: 41px;
-    margin: 33px;
+    margin-top: 33px;
   }
 
   img {
     height: 538px;
+    margin-bottom: 30px;
   }
 
   .date {
