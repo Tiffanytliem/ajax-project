@@ -27,7 +27,7 @@ img {
 
 .favorite-image {
   width: 100%;
-  height: 181px;
+  height: 190px;
   object-fit: cover;
   object-position: center;
 }
@@ -192,10 +192,16 @@ h2 span {
   margin: 0;
 }
 
+.fav-date {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
 .row-notes-delete {
   justify-content: space-between;
   text-decoration: underline;
   font-weight: 900;
+  margin-bottom: 20px;
 }
 
 @media screen and (max-width: 970px) {
@@ -242,8 +248,13 @@ h2 span {
     justify-content: space-between;
   }
 
+  .new-favorite > .row {
+    flex-direction: row;
+  }
+
   .row-date {
     justify-content: flex-end;
+    text-align: center;
   }
 
   body {
@@ -263,6 +274,13 @@ h2 span {
     margin-bottom: 30px;
   }
 
+  .favorite-image {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    object-position: center;
+  }
+
   .date {
     margin-bottom: 10px;
   }
@@ -273,6 +291,15 @@ h2 span {
     padding: 0 0 15px;
   }
 
+  .favorite-title {
+    font-size: 30px;
+    text-align: left;
+    padding-left: 0;
+    margin-bottom: 25px;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
   .credit {
     margin: 0;
     text-align: left;
@@ -280,6 +307,17 @@ h2 span {
 
   .explanation {
     margin-top: 15px;
+  }
+
+  .favorite-explanation {
+    overflow: hidden;
+    max-height: 100px;
+    line-height: 20px;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 10;
+    text-overflow: ellipsis;
+    display: block;
+    margin: 0;
   }
 
   .row-footer {
@@ -313,5 +351,13 @@ h2 span {
 
   .modal-favorites > .row {
     margin: 0 20px 30px;
+  }
+
+  h2 span {
+    font-size: 28px;
+  }
+
+  h2 {
+    margin-top: 50px;
   }
 }

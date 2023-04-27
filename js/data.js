@@ -1,7 +1,7 @@
 /* exported data */
 let data = {
   view: 'favorites',
-  list: [],
+  favorites: [],
   nextFaveID: 1
 };
 

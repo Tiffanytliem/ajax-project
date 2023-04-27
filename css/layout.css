@@ -52,7 +52,8 @@ img {
     flex-basis: 45%;
   }
 
-  .favorite-column-info {
+  .favorite-column-info,
+  .new-favorite .column-date {
     flex-basis: 49%;
   }
 }
