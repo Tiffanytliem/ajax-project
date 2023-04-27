@@ -39,7 +39,7 @@ function ajaxRequest() {
     $explanation.textContent = 'Explanation: ' + xhrResponse.explanation;
     const $explDiv = document.querySelector('.column-full.expl');
     $explDiv.appendChild($explanation);
-
+    checkFavorite();
   });
   xhr.send();
 }
@@ -54,6 +54,7 @@ function ajaxRequestDate(event) {
   xhr.addEventListener('load', function () {
     // console.log(xhr.response);
     const xhrResponse = xhr.response;
+
     const $dateDiv = document.createElement('div');
     $dateDiv.className = 'date';
     $dateDiv.textContent = xhrResponse.date;
@@ -91,7 +92,9 @@ function ajaxRequestDate(event) {
     const $explDiv = document.querySelector('.column-full.expl');
     $explDiv.removeChild($explDiv.lastChild);
     $explDiv.appendChild($explanation);
+    checkFavorite();
     $formDate.className = 'form-date hidden';
+
   });
   xhr.send();
 }
@@ -134,11 +137,12 @@ function pageSwap(page) {
     $mainPage.className = 'container main-page hidden';
   } else if (page === 'main') {
     window.location.reload();
+    checkFavorite();
   }
 }
 
 $mainPage.addEventListener('click', function (event) {
-  if (event.target.matches('.fa-regular.fa-star')) {
+  if (event.target.matches('.fa-regular.fa-star') && checkFavorite() !== true) {
     // console.log($mainPage);
     const $picture = document.querySelector('.picture');
     const $date = document.querySelector('.date');
@@ -162,8 +166,9 @@ $mainPage.addEventListener('click', function (event) {
     $favoriteList.prepend(renderFavorite(favorite));
   } else if (event.target.matches('.favorites')) {
     pageSwap('favorites');
-  } else {
-    starIconFave(false);
+    //  } else {
+    //    starIconFave(false);
+    //  }
   }
 });
 
@@ -257,3 +262,67 @@ document.addEventListener('DOMContentLoaded', function () {
     $favoriteList.appendChild(renderFavorite(data.favorites[i]));
   }
 });
+
+function viewFavorite(favorite) {
+  const $dateDiv = document.createElement('div');
+  $dateDiv.className = 'date';
+  $dateDiv.textContent = favorite.date;
+  const $columnDate = document.querySelector('.column-date');
+  $columnDate.removeChild($columnDate.lastChild);
+  $columnDate.appendChild($dateDiv);
+
+  const $anchor = document.createElement('a');
+  $anchor.setAttribute('href', favorite.pictureUrl);
+  const $image = document.createElement('img');
+  $image.setAttribute('src', favorite.pictureUrl);
+  $image.className = 'picture';
+  $anchor.appendChild($image);
+  const $columnPhoto = document.querySelector('.column-photo');
+  $columnPhoto.removeChild($columnPhoto.lastChild);
+  $columnPhoto.appendChild($anchor);
+
+  const $title = document.createElement('h3');
+  $title.setAttribute('class', 'title');
+  $title.textContent = favorite.title;
+  const $titleDiv = document.querySelector('.column-full.tle');
+  $titleDiv.removeChild($titleDiv.lastChild);
+  $titleDiv.appendChild($title);
+
+  const $credit = document.createElement('p');
+  $credit.className = 'credit';
+  $credit.textContent = favorite.credit;
+  const $credDiv = document.querySelector('.column-full.cred');
+  $credDiv.removeChild($credDiv.lastChild);
+  $credDiv.appendChild($credit);
+
+  const $explanation = document.createElement('p');
+  $explanation.className = 'explanation';
+  $explanation.textContent = favorite.explanation;
+  const $explDiv = document.querySelector('.column-full.expl');
+  $explDiv.removeChild($explDiv.lastChild);
+  $explDiv.appendChild($explanation);
+}
+
+$favePage.addEventListener('click', function (e) {
+  for (let i = 0; i < data.favorites.length; i++) {
+    if (e.target.textContent === data.favorites[i].title) {
+      $favePage.className = 'container fave-page hidden';
+      $mainPage.className = 'container main-page';
+      viewFavorite(data.favorites[i]);
+      checkFavorite();
+    }
+  }
+});
+
+function checkFavorite() {
+  const $date = document.querySelector('.date');
+  // console.log($date);
+  for (let i = 0; i < data.favorites.length; i++) {
+    if ($date.textContent === data.favorites[i].date) {
+      starIconFave(true);
+      return true;
+    } else {
+      starIconFave(false);
+    }
+  }
+}
