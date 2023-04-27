@@ -1,3 +1,13 @@
+const $mainPage = document.querySelector('.main-page');
+const $favePage = document.querySelector('.fave-page');
+const $header = document.querySelector('h1');
+const $dateForm = document.querySelector('form');
+const $starIcon = document.querySelector('.fa-star');
+const $modalFave = document.querySelector('.modal-favorites');
+// const $xmark = document.querySelector('.fa-xmark');
+const $rowFooter = document.querySelector('.row-footer');
+const $formDate = document.querySelector('.form-date');
+
 function ajaxRequest() {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://api.nasa.gov/planetary/apod?api_key=6PtagfFhUrtJhGiexIbwapgwVFbcE8MGlKW0QG6L');
@@ -51,6 +61,7 @@ function ajaxRequestDate(event) {
   xhr.open('GET', 'https://api.nasa.gov/planetary/apod?api_key=6PtagfFhUrtJhGiexIbwapgwVFbcE8MGlKW0QG6L&date=' + inputDate);
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
+    // console.log(xhr.response);
     const xhrResponse = xhr.response;
     const $dateDiv = document.createElement('div');
     $dateDiv.className = 'date';
@@ -92,13 +103,58 @@ function ajaxRequestDate(event) {
   });
   xhr.send();
 }
-const $dateForm = document.querySelector('form');
+
 $dateForm.addEventListener('submit', ajaxRequestDate);
 
-const $rowFooter = document.querySelector('.row-footer');
-const $formDate = document.querySelector('.form-date');
 $rowFooter.addEventListener('click', function (event) {
   if (event.target.matches('.search')) {
     $formDate.className = 'form-date';
+    $modalFave.className = 'modal-favorites hidden';
   }
 });
+
+function starIconFave(boolean) {
+  if (boolean === true) {
+    $starIcon.className = 'fa-solid fa-star';
+  } else {
+    $starIcon.className = 'fa-regular fa-star';
+  }
+}
+
+function pageSwap(page) {
+  if (page === 'favorites') {
+    $favePage.className = 'container fave-page';
+    $mainPage.className = 'container main-page hidden';
+  } else if (page === 'main') {
+    window.location.reload();
+  }
+}
+
+$mainPage.addEventListener('click', function (event) {
+  if (event.target.matches('.fa-regular.fa-star')) {
+    starIconFave(true);
+    $modalFave.className = 'modal-favorites';
+
+  } else {
+    starIconFave(false);
+  }
+});
+
+$modalFave.addEventListener('click', function (e) {
+  // console.log(e.target);
+  if (e.target.matches('.fa-xmark')) {
+    $modalFave.className = 'modal-favorites hidden';
+  } else if (e.target.matches('.view-list')) {
+    $modalFave.className = 'modal-favorites hidden';
+    pageSwap('favorites');
+  } else if (e.target.matches('.add-note')) {
+    $modalFave.className = 'modal-favorites hidden';
+    // $modalNote.className = 'modal-notes';
+  }
+
+});
+
+$header.addEventListener('click', function (e) {
+  pageSwap('main');
+}
+);

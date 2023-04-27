@@ -1,6 +1,7 @@
 .row,
 .row-date,
-.row-footer {
+.row-footer,
+.row-notes-delete {
   display: flex;
   flex-wrap: wrap;
 }
@@ -8,7 +9,9 @@
 .column-full,
 .column-photo,
 .column-info,
-.column-date {
+.column-date,
+.favorite-column-photo,
+.favorite-column-info {
   flex-basis: 100%;
 }
 
@@ -18,6 +21,10 @@
 
 img {
   width: 100%;
+}
+
+.column-auto {
+  flex-basis: auto;
 }
 
 @media screen and (min-width: 970px) {
@@ -39,5 +46,13 @@ img {
 
   .column-info {
     flex-basis: 31%;
+  }
+
+  .favorite-column-photo {
+    flex-basis: 45%;
+  }
+
+  .favorite-column-info {
+    flex-basis: 49%;
   }
 }
