@@ -47,12 +47,16 @@
           </div>
           <div class="row-footer">
             <div class="column-third">
-              <i class="fa-sharp fa-solid fa-calendar-days" style="color: #ffffff;"></i>
+              <i class="fa-sharp fa-solid fa-calendar-days"></i>
               <span class="search">Search</span>
             </div>
             <div class="column-third">
-              <i class="fa-regular fa-star" style="color: #ffffff;"></i>
+              <i class="fa-regular fa-star"></i>
               <span class="favorites">Favorites</span>
+            </div>
+            <div class="column-third">
+              <i class="fa-solid fa-pencil"></i>
+              <span class="notes">Notes</span>
             </div>
           </div>
         </div>
@@ -113,6 +117,16 @@
         <p class="view-list">View list</p>
         <p class="add-note">Add a Note</p>
       </div>
+    </div>
+    <div class="modal-notes hidden">
+      <form class="form-notes">
+        <p>NOTES:</p>
+        <div class="notes-container">
+          <textarea id="notes-content" rows="10" cols="30" placeholder="Add notes here...">
+          </textarea>
+        </div>
+        <input type="submit" class="notes-save" value="SAVE">
+      </form>
     </div>
   </main>
   <script src="js/data.js"></script>

@@ -1,9 +1,14 @@
 body {
   background-color: #021f4b;
   font-family: "Space Mono", sans-serif;
-  color: rgb(237, 237, 237);
+  color: #e3e5ed;
   margin: auto 14px;
   font-size: 12px;
+}
+
+p,
+i {
+  color: #cdd1e1;
 }
 
 h1 {
@@ -34,7 +39,7 @@ img {
 
 .row-footer {
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   text-align: center;
   margin: 20px auto;
   font-weight: 700;
@@ -71,7 +76,7 @@ i {
 }
 
 .form-date {
-  position: absolute;
+  position: fixed;
   width: 240px;
   height: 200px;
   background-color: rgba(2, 31, 75, 0.85);
@@ -127,6 +132,51 @@ input {
   border-radius: 2px;
 }
 
+.modal-notes {
+  width: 346px;
+  height: 244px;
+  position: fixed;
+  left: calc(50% - 173px);
+  bottom: calc(40vh - 122px);
+  background-color: #021f4b;
+  border: solid 0.5px grey;
+  border-radius: 2px;
+}
+
+.form-notes {
+  margin: auto;
+  padding: 0;
+}
+
+.form-notes p {
+  padding: 10px 5px 2px 25px;
+  margin: 0;
+  text-align: left;
+  font-weight: 800;
+}
+
+#notes-content {
+  width: 316px;
+  height: 178px;
+  background-color: #021f4b;
+  border: solid 0.5px grey;
+  border-radius: 2px;
+  padding: 10px;
+  margin: auto;
+}
+
+.notes-save {
+  background-color: transparent;
+  margin: auto;
+  margin-left: 260px;
+  color: rgb(224, 224, 224);
+  border: none;
+}
+
+.notes-save:hover {
+  cursor: pointer;
+}
+
 .modal-favorites > h5 {
   text-align: center;
   font-size: 15px;
@@ -155,6 +205,7 @@ input {
 
 .search:hover,
 .favorites:hover,
+.notes:hover,
 .view-list:hover,
 .add-note:hover {
   cursor: pointer;
@@ -335,8 +386,10 @@ h2 span {
   }
 
   .row-footer {
-    margin: 20px 0;
+    margin-top: 20px;
+    margin-right: 60px;
     text-align: left;
+    justify-content: space-between;
   }
 
   .form-date {
@@ -365,6 +418,31 @@ h2 span {
 
   .modal-favorites > .row {
     margin: 0 20px 30px;
+  }
+
+  .modal-notes {
+    width: 506px;
+    height: 256px;
+    left: calc(50% - 253px);
+    bottom: calc(40vh - 128px);
+  }
+
+  #notes-content {
+    width: 460px;
+    height: 150px;
+    color: antiquewhite;
+    padding: 10px;
+    margin: 10px auto 0;
+  }
+
+  .form-notes p {
+    padding: 20px 0 2px 30px;
+    margin-bottom: 0;
+  }
+
+  .notes-save {
+    margin-left: 420px;
+    font-size: 15px;
   }
 
   h2 span {

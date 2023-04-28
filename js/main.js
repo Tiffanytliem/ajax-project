@@ -244,7 +244,7 @@ function renderFavorite(favorite) {
   const $div11 = document.createElement('div');
   $div11.className = 'column-auto fave-delete';
   const $delete = document.createElement('p');
-  $delete.textContent = 'DELETE';
+  $delete.textContent = 'Remove';
   $div11.appendChild($delete);
   $div9.appendChild($div11);
 
