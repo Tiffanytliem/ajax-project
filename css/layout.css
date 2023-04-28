@@ -15,7 +15,9 @@
   flex-basis: 100%;
 }
 
-.column-third {
+.footer-search,
+.footer-favorites,
+.footer-notes-holder {
   flex-basis: auto;
 }
 
