@@ -4,19 +4,16 @@ const $favePage = document.querySelector('.fave-page');
 const $header = document.querySelector('h1');
 const $starIcon = document.querySelector('.fa-star');
 const $modalFave = document.querySelector('.modal-favorites');
-// const $xmark = document.querySelector('.fa-xmark');
 const $rowFooter = document.querySelector('.row-footer');
 const $modalDate = document.querySelector('.form-date');
 const $modalNotes = document.querySelector('.modal-notes');
 const $footerNotes = document.querySelector('.footer-notes');
 
 function ajaxRequest() {
-  var xhr = new XMLHttpRequest();
+  const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://api.nasa.gov/planetary/apod?api_key=6PtagfFhUrtJhGiexIbwapgwVFbcE8MGlKW0QG6L');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    // console.log(xhr.status);
-    // console.log(xhr.response);
     const xhrResponse = xhr.response;
     const $dateDiv = document.createElement('div');
     $dateDiv.className = 'date';
@@ -63,7 +60,6 @@ function ajaxRequestDate(event) {
   xhr.open('GET', 'https://api.nasa.gov/planetary/apod?api_key=6PtagfFhUrtJhGiexIbwapgwVFbcE8MGlKW0QG6L&date=' + inputDate);
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    // console.log(xhr.response);
     const xhrResponse = xhr.response;
 
     const $dateDiv = document.createElement('div');
@@ -249,7 +245,6 @@ $modalDate.addEventListener('click', function (e) {
 
 function checkFavorite() {
   const $date = document.querySelector('.date');
-  // console.log($date);
   for (let i = 0; i < data.favorites.length; i++) {
     if ($date.textContent === data.favorites[i].date) {
       starIconFave(true);
@@ -295,7 +290,6 @@ $rowFooter.addEventListener('click', function (event) {
 });
 $mainPage.addEventListener('click', function (event) {
   if (event.target.matches('.fa-regular.fa-star') && checkFavorite() !== true) {
-    // console.log($mainPage);
     const $date = document.querySelector('.date');
     const $picture = document.querySelector('.picture');
     const $title = document.querySelector('.title');
@@ -324,6 +318,8 @@ $mainPage.addEventListener('click', function (event) {
       } else if (e.target.matches('.add-note')) {
         viewModal('notes');
         const $notesForm = document.querySelector('.form-notes');
+        const $textArea = document.querySelector('#notescontent');
+        $textArea.textContent = '';
         $notesForm.addEventListener('submit', function (event) {
           event.preventDefault();
           favorite.notes = $notesForm.elements.notescontent.value;
@@ -356,16 +352,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $favoriteList.appendChild(renderFavorite(data.favorites[i]));
   }
 });
-$favePage.addEventListener('click', function (e) {
-  for (let i = 0; i < data.favorites.length; i++) {
-    if (e.target.textContent === data.favorites[i].title) {
-      $favePage.className = 'container fave-page hidden';
-      $mainPage.className = 'container main-page';
-      viewFavorite(data.favorites[i]);
-      checkFavorite();
-    }
-  }
-});
+
 $favePage.addEventListener('mouseover', function (e) {
   const $allFavorites = document.querySelectorAll('.new-favorite');
   for (let i = 0; i < $allFavorites.length; i++) {
@@ -379,9 +366,17 @@ $favePage.addEventListener('mouseover', function (e) {
             $textArea.textContent = data.favorites[i].notes;
           }
         }
+      } else if (e.target.matches('.favorite-title')) {
+        for (let j = 0; j < data.favorites.length; j++) {
+          if (Number($eachFavorite.getAttribute('id')) === data.favorites[j].faveID) {
+            $favePage.className = 'container fave-page hidden';
+            $mainPage.className = 'container main-page';
+            viewFavorite(data.favorites[j]);
+            checkFavorite();
+          }
+        }
       }
-    }
-    );
+    });
   }
 }
 );
