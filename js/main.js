@@ -122,6 +122,13 @@ function starIconFave(boolean) {
     $starIcon.className = 'fa-regular fa-star';
   }
 }
+function footerNotesFave(boolean) {
+  if (boolean === true) {
+    $footerNotes.className = 'footer-notes';
+  } else {
+    $footerNotes.className = 'footer-notes hidden';
+  }
+}
 function renderFavorite(favorite) {
   const $newFavorite = document.createElement('div');
   $newFavorite.setAttribute('id', favorite.faveID);
@@ -248,13 +255,13 @@ function checkFavorite() {
   for (let i = 0; i < data.favorites.length; i++) {
     if ($date.textContent === data.favorites[i].date) {
       starIconFave(true);
-      $footerNotes.className = 'footer-notes';
+      footerNotesFave(true);
       return true;
     } else {
       starIconFave(false);
-      $footerNotes.className = 'footer-notes hidden';
+      footerNotesFave(false);
     }
-  }
+  } return false;
 }
 function viewModal(modal) {
   if (modal === 'search') {
@@ -296,8 +303,6 @@ $mainPage.addEventListener('click', function (event) {
     const $credit = document.querySelector('.credit');
     const $explanation = document.querySelector('.explanation');
 
-    starIconFave(true);
-    viewModal('favorites');
     const favorite = {
       date: $date.textContent,
       pictureUrl: $picture.src,
@@ -309,32 +314,17 @@ $mainPage.addEventListener('click', function (event) {
     favorite.faveID = data.nextFaveID;
     data.nextFaveID++;
 
-    $modalFave.addEventListener('click', function (e) {
-      if (e.target.matches('.fa-xmark')) {
-        viewModal('none');
-      } else if (e.target.matches('.view-list')) {
-        viewModal('none');
-        pageSwap('favorites');
-      } else if (e.target.matches('.add-note')) {
-        viewModal('notes');
-        const $notesForm = document.querySelector('.form-notes');
-        const $textArea = document.querySelector('#notescontent');
-        $textArea.textContent = '';
-        $notesForm.addEventListener('submit', function (event) {
-          event.preventDefault();
-          favorite.notes = $notesForm.elements.notescontent.value;
-          $notesForm.reset();
-          viewModal('none');
-          window.location.reload();
-        });
-      }
-    });
+    starIconFave(true);
+    footerNotesFave(true);
+    viewModal('favorites');
+
     data.favorites.unshift(favorite);
     const $favoriteList = document.querySelector('.favorite-list');
     $favoriteList.prepend(renderFavorite(favorite));
+
   } else if (event.target.matches('.favorites')) {
     pageSwap('favorites');
-  } else if (event.target.matches('.notes')) {
+  } else if (event.target.matches('.notes') && checkFavorite() === true) {
     viewModal('notes');
     const $date = document.querySelector('.date');
     const $textArea = document.querySelector('#notescontent');
@@ -346,6 +336,32 @@ $mainPage.addEventListener('click', function (event) {
     }
   }
 });
+$modalFave.addEventListener('click', function (e) {
+  if (e.target.matches('.fa-xmark')) {
+    viewModal('none');
+  } else if (e.target.matches('.view-list')) {
+    viewModal('none');
+    pageSwap('favorites');
+  } else if (e.target.matches('.add-note')) {
+    viewModal('notes');
+    const $textArea = document.querySelector('#notescontent');
+    $textArea.textContent = '';
+  }
+});
+
+const $notesForm = document.querySelector('.form-notes');
+$notesForm.addEventListener('submit', function (event) {
+  event.preventDefault();
+  const $date = document.querySelector('.date');
+  for (let i = 0; i < data.favorites.length; i++) {
+    if ($date.textContent === data.favorites[i].date) {
+      data.favorites[i].notes = $notesForm.elements.notescontent.value;
+    }
+  }
+  viewModal('none');
+  $notesForm.reset();
+});
+
 document.addEventListener('DOMContentLoaded', function () {
   const $favoriteList = document.querySelector('.favorite-list');
   for (let i = 0; i < data.favorites.length; i++) {
