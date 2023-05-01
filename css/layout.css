@@ -15,8 +15,10 @@
   flex-basis: 100%;
 }
 
-.column-third {
-  flex-basis: calc(100%/3);
+.footer-search,
+.footer-favorites,
+.footer-notes-holder {
+  flex-basis: auto;
 }
 
 img {

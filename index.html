@@ -46,13 +46,19 @@
             </div>
           </div>
           <div class="row-footer">
-            <div class="column-third">
-              <i class="fa-sharp fa-solid fa-calendar-days" style="color: #ffffff;"></i>
+            <div class="footer-search">
+              <i class="fa-sharp fa-solid fa-calendar-days"></i>
               <span class="search">Search</span>
             </div>
-            <div class="column-third">
-              <i class="fa-regular fa-star" style="color: #ffffff;"></i>
+            <div class="footer-favorites">
+              <i class="fa-regular fa-star"></i>
               <span class="favorites">Favorites</span>
+            </div>
+            <div class="footer-notes-holder">
+              <div class="footer-notes hidden">
+                <i class="fa-solid fa-pencil"></i>
+                <span class="notes">Notes</span>
+              </div>
             </div>
           </div>
         </div>
@@ -88,7 +94,7 @@
               </div>
               <div class="row-notes-delete">
                 <div class="column-auto fave-ntes">
-                  <p>NOTES</p>
+                  <p class="favorite-notes">NOTES</p>
                 </div>
                 <div class="column-auto fave-delete">
                   <p>DELETE</p>
@@ -100,6 +106,7 @@
       </div>
     </div>
     <div class="form-date hidden">
+      <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
       <form>
         <label for="date">ENTER DATE:</label><br>
         <input type="text" id="date" placeholder="yyyy-mm-dd"></input>
@@ -113,6 +120,16 @@
         <p class="view-list">View list</p>
         <p class="add-note">Add a Note</p>
       </div>
+    </div>
+    <div class="modal-notes hidden">
+      <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
+      <form class="form-notes">
+        <p>NOTES:</p>
+        <div class="notes-container">
+          <textarea id="notescontent" rows="10" cols="30" placeholder="Add notes here..."></textarea>
+        </div>
+        <input type="submit" class="notes-save" value="SAVE">
+      </form>
     </div>
   </main>
   <script src="js/data.js"></script>
