@@ -144,7 +144,8 @@ input {
   border-radius: 2px;
 }
 
-#notescontent {
+#notescontent,
+#notescontentfave {
   color: #e3e5ed;
   width: 316px;
   height: 160px;
@@ -447,7 +448,8 @@ h2 span {
     bottom: calc(40vh - 128px);
   }
 
-  #notescontent {
+  #notescontent,
+  #notescontentfave {
     width: 460px;
     height: 160px;
     color: #e3e5ed;

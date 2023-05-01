@@ -210,6 +210,7 @@ function renderFavorite(favorite) {
 
   const $form = document.createElement('form');
   $form.className = 'form-notes-fave';
+  $form.setAttribute('id', favorite.faveID);
   $div12.appendChild($form);
   const $notesHeading = document.createElement('p');
   $notesHeading.textContent = 'NOTES:';
@@ -218,7 +219,7 @@ function renderFavorite(favorite) {
   $div13.className = 'notes-container';
 
   const $textArea = document.createElement('textarea');
-  $textArea.setAttribute('id', 'notescontent');
+  $textArea.setAttribute('id', 'notescontentfave');
   $textArea.setAttribute('rows', '10');
   $textArea.setAttribute('cols', '30');
   $textArea.setAttribute('placeholder', 'Add notes here...');
@@ -372,9 +373,7 @@ $mainPage.addEventListener('click', function (event) {
     for (let i = 0; i < data.favorites.length; i++) {
       if ($date.textContent === data.favorites[i].date) {
         // console.log($date.textContent);
-        const text = document.createTextNode(data.favorites[i].notes);
-        $textArea.appendChild(text);
-        // $textArea.textContent = data.favorites[i].notes;
+        $textArea.textContent = data.favorites[i].notes;
         // console.log(data.favorites[i].notes);
         // console.log($textArea.textContent);
       }
@@ -417,43 +416,100 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function favePageQuery() {
   const $allFavorites = document.querySelectorAll('.new-favorite');
-  const $notesForm = document.querySelector('.form-notes-fave');
-  $notesForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-    const $favorite = document.querySelector('.new-favorite');
-    // for (let i = 0; i < $allFavorites.length; i++) {
-    // const $each = $allFavorites[i];
-    // console.log($each);
-    for (let j = 0; j < data.favorites.length; j++) {
-      if (Number($favorite.getAttribute('id')) === data.favorites[j].faveID) {
-        // console.log($favorite);
-        // console.log('hey!');
-        const editingNotes = $notesForm.elements.notescontent.value;
-        data.favorites[j].notes = editingNotes;
-        // console.log($notesForm.elements.notescontent.value);
-        // console.log(data.favorites[j].notes);
-        viewModal('none');
-        $notesForm.reset();
-        $modalNotesFave.className = 'modal-notes-fave hidden';
-      }
+  const $fave = document.querySelector('.new-favorite');
+  $fave.addEventListener('click', function () {
+    // console.log($fave);
+  });
+  // const $notesForm = document.querySelector('.form-notes-fave');
+  const $modalNotesFave = document.querySelector('.modal-notes-fave');
+  $modalNotesFave.addEventListener('click', function (e) {
+    if (e.target.matches('.fa-xmark')) {
+      viewModal('none');
+      $modalNotesFave.className = 'modal-notes-fave hidden';
     }
+  });
+  const $formNotesFaves = document.querySelectorAll('.form-notes-fave');
+  // const $formNotesFave = document.querySelector('.form-notes-fave');
+  // console.log($formNotesFaves);
+  // console.log($formNotesFave);
+  for (let i = 0; i < $formNotesFaves.length; i++) {
+    const item = $formNotesFaves[i];
+    item.addEventListener('click', function () {
+      // console.log(item);
+    });
+    item.addEventListener('submit', function (e) {
+      e.preventDefault();
+      // console.log(item);
+      for (let j = 0; j < data.favorites.length; j++) {
+        if (Number(item.getAttribute('id')) === data.favorites[j].faveID) {
+          // console.log(item.getAttribute('id'));
+          // console.log(data.favorites[j].faveID);
+          data.favorites[j].notes = item.elements.notescontentfave.value;
+          viewModal('none');
+          item.reset();
+          $modalNotesFave.className = 'modal-notes-fave hidden';
+        }
+      }
+    });
   }
-    // }
-  );
+
+  // $notesForm.addEventListener('submit', function (event) {
+  //   event.preventDefault();
+  //   const $favorite = document.querySelector('.new-favorite');
+  //   // for (let i = 0; i < $allFavorites.length; i++) {
+  //   // const $each = $allFavorites[i];
+  //   // console.log($each);
+  //   for (let j = 0; j < data.favorites.length; j++) {
+  //     if (Number($favorite.getAttribute('id')) === data.favorites[j].faveID) {
+  //       console.log($favorite);
+  //       // console.log('hey!');
+  //       data.favorites[j].notes = $notesForm.elements.notescontentfave.value;
+  //       // console.log($notesForm.elements.notescontentfave.value);
+  //       // console.log(data.favorites[j].notes);
+  //       viewModal('none');
+  //       $notesForm.reset();
+  //       $modalNotesFave.className = 'modal-notes-fave hidden';
+  //     }
+  //   }
+  // }
+  //   // }
+  // );
   for (let i = 0; i < $allFavorites.length; i++) {
     const $each = $allFavorites[i];
     // console.log($each);
-    const $modalNotesFave = document.querySelector('.modal-notes-fave');
+
+    // $each.addEventListener('submit', function (e) {
+    //   event.preventDefault();
+    //   const $notesForm = document.querySelector('.form-notes-fave');
+    //   console.log($each);
+    //   for (let j = 0; j < data.favorites.length; j++) {
+    //     if (Number($each.getAttribute('id')) === data.favorites[j].faveID) {
+    //       console.log($each);
+    //       data.favorites[j].notes = $notesForm.elements.notescontentfave.value;
+    //       console.log($notesForm.elements.notescontentfave.value);
+    //       console.log(data.favorites[j].notes);
+    //       viewModal('none');
+    //       $notesForm.reset();
+    //       $modalNotesFave.className = 'modal-notes-fave hidden';
+    //     }
+    //   }
+    // });
 
     $each.addEventListener('click', function (e) {
+      // console.log($each);
       if (e.target.matches('.favorite-notes')) {
         $modalNotesFave.className = 'modal-notes-fave';
-        const $textArea = document.querySelector('#notescontent');
+        const $textArea = document.querySelector('#notescontentfave');
         for (let j = 0; j < data.favorites.length; j++) {
           if (Number($each.getAttribute('id')) === data.favorites[j].faveID) {
+            const $formNotesFave = document.querySelector('.form-notes-fave');
+            $formNotesFave.setAttribute('id', data.favorites[j].faveID);
+            // console.log($formNotesFave);
             $textArea.textContent = data.favorites[j].notes;
+
           }
         }
+
       } else if (e.target.matches('.favorite-title')) {
         for (let j = 0; j < data.favorites.length; j++) {
           if (Number($each.getAttribute('id')) === data.favorites[j].faveID) {
@@ -466,13 +522,4 @@ function favePageQuery() {
       }
     });
   }
-
-  const $modalNotesFave = document.querySelector('.modal-notes-fave');
-  $modalNotesFave.addEventListener('click', function (e) {
-    if (e.target.matches('.fa-xmark')) {
-      viewModal('none');
-      $modalNotesFave.className = 'modal-notes-fave hidden';
-    }
-
-  });
 }
