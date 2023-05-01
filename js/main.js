@@ -107,9 +107,14 @@ function ajaxRequestDate(event) {
 }
 function pageSwap(page) {
   viewModal('none');
+  const $modalNotesFave = document.querySelector('.modal-notes-fave');
+  $modalNotesFave.className = 'modal-notes-fave hidden';
+
   if (page === 'favorites') {
     $favePage.className = 'container fave-page';
     $mainPage.className = 'container main-page hidden';
+    favePageQuery();
+
   } else if (page === 'main') {
     window.location.reload();
     checkFavorite();
@@ -196,7 +201,39 @@ function renderFavorite(favorite) {
   $div9.appendChild($div11);
   $div5.appendChild($div9);
   $div3.appendChild($div5);
+
+  const $div12 = document.createElement('div');
+  $div12.className = 'modal-notes-fave hidden';
+  const $i = document.createElement('i');
+  $i.className = 'fa-solid fa-xmark';
+  $div12.appendChild($i);
+
+  const $form = document.createElement('form');
+  $form.className = 'form-notes-fave';
+  $div12.appendChild($form);
+  const $notesHeading = document.createElement('p');
+  $notesHeading.textContent = 'NOTES:';
+  $form.appendChild($notesHeading);
+  const $div13 = document.createElement('div');
+  $div13.className = 'notes-container';
+
+  const $textArea = document.createElement('textarea');
+  $textArea.setAttribute('id', 'notescontent');
+  $textArea.setAttribute('rows', '10');
+  $textArea.setAttribute('cols', '30');
+  $textArea.setAttribute('placeholder', 'Add notes here...');
+  $div13.appendChild($textArea);
+  $form.appendChild($div13);
+
+  const $input = document.createElement('input');
+  $input.setAttribute('type', 'submit');
+  $input.className = 'notes-save';
+  $input.setAttribute('value', 'SAVE');
+  $form.appendChild($input);
+  $div12.appendChild($form);
+
   $newFavorite.appendChild($div3);
+  $newFavorite.appendChild($div12);
   return $newFavorite;
 }
 function viewFavorite(favorite) {
@@ -244,6 +281,7 @@ $modalNotes.addEventListener('click', function (e) {
     viewModal('none');
   }
 });
+
 $modalDate.addEventListener('click', function (e) {
   if (e.target.matches('.fa-xmark')) {
     viewModal('none');
@@ -327,15 +365,23 @@ $mainPage.addEventListener('click', function (event) {
   } else if (event.target.matches('.notes') && checkFavorite() === true) {
     viewModal('notes');
     const $date = document.querySelector('.date');
+    // console.log($date.textContent);
     const $textArea = document.querySelector('#notescontent');
 
+    // console.log($textArea);
     for (let i = 0; i < data.favorites.length; i++) {
       if ($date.textContent === data.favorites[i].date) {
-        $textArea.textContent = data.favorites[i].notes;
+        // console.log($date.textContent);
+        const text = document.createTextNode(data.favorites[i].notes);
+        $textArea.appendChild(text);
+        // $textArea.textContent = data.favorites[i].notes;
+        // console.log(data.favorites[i].notes);
+        // console.log($textArea.textContent);
       }
     }
   }
 });
+
 $modalFave.addEventListener('click', function (e) {
   if (e.target.matches('.fa-xmark')) {
     viewModal('none');
@@ -369,22 +415,48 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-$favePage.addEventListener('mouseover', function (e) {
+function favePageQuery() {
   const $allFavorites = document.querySelectorAll('.new-favorite');
+  const $notesForm = document.querySelector('.form-notes-fave');
+  $notesForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const $favorite = document.querySelector('.new-favorite');
+    // for (let i = 0; i < $allFavorites.length; i++) {
+    // const $each = $allFavorites[i];
+    // console.log($each);
+    for (let j = 0; j < data.favorites.length; j++) {
+      if (Number($favorite.getAttribute('id')) === data.favorites[j].faveID) {
+        // console.log($favorite);
+        // console.log('hey!');
+        const editingNotes = $notesForm.elements.notescontent.value;
+        data.favorites[j].notes = editingNotes;
+        // console.log($notesForm.elements.notescontent.value);
+        // console.log(data.favorites[j].notes);
+        viewModal('none');
+        $notesForm.reset();
+        $modalNotesFave.className = 'modal-notes-fave hidden';
+      }
+    }
+  }
+    // }
+  );
   for (let i = 0; i < $allFavorites.length; i++) {
-    const $eachFavorite = $allFavorites[i];
-    $eachFavorite.addEventListener('click', function (e) {
+    const $each = $allFavorites[i];
+    // console.log($each);
+    const $modalNotesFave = document.querySelector('.modal-notes-fave');
+
+    $each.addEventListener('click', function (e) {
       if (e.target.matches('.favorite-notes')) {
-        viewModal('notes');
+        $modalNotesFave.className = 'modal-notes-fave';
         const $textArea = document.querySelector('#notescontent');
         for (let j = 0; j < data.favorites.length; j++) {
-          if (Number($eachFavorite.getAttribute('id')) === data.favorites[j].faveID) {
-            $textArea.textContent = data.favorites[i].notes;
+          if (Number($each.getAttribute('id')) === data.favorites[j].faveID) {
+            $textArea.textContent = data.favorites[j].notes;
           }
         }
       } else if (e.target.matches('.favorite-title')) {
         for (let j = 0; j < data.favorites.length; j++) {
-          if (Number($eachFavorite.getAttribute('id')) === data.favorites[j].faveID) {
+          if (Number($each.getAttribute('id')) === data.favorites[j].faveID) {
             $favePage.className = 'container fave-page hidden';
             $mainPage.className = 'container main-page';
             viewFavorite(data.favorites[j]);
@@ -394,5 +466,13 @@ $favePage.addEventListener('mouseover', function (e) {
       }
     });
   }
+
+  const $modalNotesFave = document.querySelector('.modal-notes-fave');
+  $modalNotesFave.addEventListener('click', function (e) {
+    if (e.target.matches('.fa-xmark')) {
+      viewModal('none');
+      $modalNotesFave.className = 'modal-notes-fave hidden';
+    }
+
+  });
 }
-);

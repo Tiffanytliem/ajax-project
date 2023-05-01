@@ -132,7 +132,8 @@ input {
   border-radius: 2px;
 }
 
-.modal-notes {
+.modal-notes,
+.modal-notes-fave {
   width: 346px;
   height: 244px;
   position: fixed;
@@ -154,12 +155,14 @@ input {
   margin: auto;
 }
 
-.form-notes {
+.form-notes,
+.form-notes-fave {
   margin: auto;
   padding: 0;
 }
 
-.form-notes p {
+.form-notes p,
+.form-notes-fave p {
   padding: 0 5px 2px 25px;
   margin: 0;
   text-align: left;
@@ -436,7 +439,8 @@ h2 span {
     margin: 0 20px 30px;
   }
 
-  .modal-notes {
+  .modal-notes,
+  .modal-notes-fave {
     width: 506px;
     height: 256px;
     left: calc(50% - 253px);
@@ -451,7 +455,8 @@ h2 span {
     margin: 10px auto 0;
   }
 
-  .form-notes p {
+  .form-notes p,
+  .form-notes-fave p {
     padding: 0 0 2px 30px;
     margin-bottom: 0;
   }

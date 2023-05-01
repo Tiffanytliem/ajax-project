@@ -2,7 +2,8 @@
 let data = {
   view: 'favorites',
   favorites: [],
-  nextFaveID: 1
+  nextFaveID: 1,
+  editing: null
 };
 
 window.addEventListener('beforeunload', function () {
