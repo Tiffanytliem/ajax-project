@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,9 +15,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;900&family=Space+Mono:wght@400;700&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
+
 <body>
   <header>
     <h1>ASTRONOMY PICTURE OF THE DAY</h1>
@@ -46,17 +50,19 @@
             </div>
           </div>
           <div class="row-footer">
-            <div class="column-third">
+            <div class="footer-search">
               <i class="fa-sharp fa-solid fa-calendar-days"></i>
               <span class="search">Search</span>
             </div>
-            <div class="column-third">
+            <div class="footer-favorites">
               <i class="fa-regular fa-star"></i>
               <span class="favorites">Favorites</span>
             </div>
-            <div class="column-third">
-              <i class="fa-solid fa-pencil"></i>
-              <span class="notes">Notes</span>
+            <div class="footer-notes-holder">
+              <div class="footer-notes hidden">
+                <i class="fa-solid fa-pencil"></i>
+                <span class="notes">Notes</span>
+              </div>
             </div>
           </div>
         </div>
@@ -92,7 +98,7 @@
               </div>
               <div class="row-notes-delete">
                 <div class="column-auto fave-ntes">
-                  <p>NOTES</p>
+                  <p class="favorite-notes">NOTES</p>
                 </div>
                 <div class="column-auto fave-delete">
                   <p>DELETE</p>
@@ -104,6 +110,7 @@
       </div>
     </div>
     <div class="form-date hidden">
+      <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
       <form>
         <label for="date">ENTER DATE:</label><br>
         <input type="text" id="date" placeholder="yyyy-mm-dd"></input>
@@ -119,11 +126,11 @@
       </div>
     </div>
     <div class="modal-notes hidden">
+      <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>
       <form class="form-notes">
         <p>NOTES:</p>
         <div class="notes-container">
-          <textarea id="notes-content" rows="10" cols="30" placeholder="Add notes here...">
-          </textarea>
+          <textarea id="notescontent" rows="10" cols="30" placeholder="Add notes here..."></textarea>
         </div>
         <input type="submit" class="notes-save" value="SAVE">
       </form>
@@ -132,4 +139,5 @@
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
+
 </html>

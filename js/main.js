@@ -1,11 +1,19 @@
 const $dateForm = document.querySelector('form');
+const $mainPage = document.querySelector('.main-page');
+const $favePage = document.querySelector('.fave-page');
+const $header = document.querySelector('h1');
+const $starIcon = document.querySelector('.fa-star');
+const $modalFave = document.querySelector('.modal-favorites');
+const $rowFooter = document.querySelector('.row-footer');
+const $modalDate = document.querySelector('.form-date');
+const $modalNotes = document.querySelector('.modal-notes');
+const $footerNotes = document.querySelector('.footer-notes');
+
 function ajaxRequest() {
-  var xhr = new XMLHttpRequest();
+  const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://api.nasa.gov/planetary/apod?api_key=6PtagfFhUrtJhGiexIbwapgwVFbcE8MGlKW0QG6L');
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    // console.log(xhr.status);
-    // console.log(xhr.response);
     const xhrResponse = xhr.response;
     const $dateDiv = document.createElement('div');
     $dateDiv.className = 'date';
@@ -52,7 +60,6 @@ function ajaxRequestDate(event) {
   xhr.open('GET', 'https://api.nasa.gov/planetary/apod?api_key=6PtagfFhUrtJhGiexIbwapgwVFbcE8MGlKW0QG6L&date=' + inputDate);
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    // console.log(xhr.response);
     const xhrResponse = xhr.response;
 
     const $dateDiv = document.createElement('div');
@@ -93,45 +100,13 @@ function ajaxRequestDate(event) {
     $explDiv.removeChild($explDiv.lastChild);
     $explDiv.appendChild($explanation);
     checkFavorite();
-    $formDate.className = 'form-date hidden';
+    $modalDate.className = 'form-date hidden';
 
   });
   xhr.send();
 }
-
-$dateForm.addEventListener('submit', ajaxRequestDate);
-
-const $mainPage = document.querySelector('.main-page');
-const $favePage = document.querySelector('.fave-page');
-const $header = document.querySelector('h1');
-
-const $starIcon = document.querySelector('.fa-star');
-const $modalFave = document.querySelector('.modal-favorites');
-// const $xmark = document.querySelector('.fa-xmark');
-const $rowFooter = document.querySelector('.row-footer');
-const $formDate = document.querySelector('.form-date');
-
-$header.addEventListener('click', function (e) {
-  pageSwap('main');
-}
-);
-
-$rowFooter.addEventListener('click', function (event) {
-  if (event.target.matches('.search')) {
-    $formDate.className = 'form-date';
-    $modalFave.className = 'modal-favorites hidden';
-  }
-});
-
-function starIconFave(boolean) {
-  if (boolean === true) {
-    $starIcon.className = 'fa-solid fa-star';
-  } else {
-    $starIcon.className = 'fa-regular fa-star';
-  }
-}
-
 function pageSwap(page) {
+  viewModal('none');
   if (page === 'favorites') {
     $favePage.className = 'container fave-page';
     $mainPage.className = 'container main-page hidden';
@@ -140,53 +115,23 @@ function pageSwap(page) {
     checkFavorite();
   }
 }
-
-$mainPage.addEventListener('click', function (event) {
-  if (event.target.matches('.fa-regular.fa-star') && checkFavorite() !== true) {
-    // console.log($mainPage);
-    const $picture = document.querySelector('.picture');
-    const $date = document.querySelector('.date');
-    const $title = document.querySelector('.title');
-    const $credit = document.querySelector('.credit');
-    const $explanation = document.querySelector('.explanation');
-
-    starIconFave(true);
-    $modalFave.className = 'modal-favorites';
-    const favorite = {
-      date: $date.textContent,
-      pictureUrl: $picture.src,
-      title: $title.textContent,
-      credit: $credit.textContent,
-      explanation: $explanation.textContent
-    };
-    favorite.faveID = data.nextFaveID;
-    data.nextFaveID++;
-    data.favorites.unshift(favorite);
-    const $favoriteList = document.querySelector('.favorite-list');
-    $favoriteList.prepend(renderFavorite(favorite));
-  } else if (event.target.matches('.favorites')) {
-    pageSwap('favorites');
-    //  } else {
-    //    starIconFave(false);
-    //  }
+function starIconFave(boolean) {
+  if (boolean === true) {
+    $starIcon.className = 'fa-solid fa-star';
+  } else {
+    $starIcon.className = 'fa-regular fa-star';
   }
-});
-
-$modalFave.addEventListener('click', function (e) {
-  // console.log(e.target);
-  if (e.target.matches('.fa-xmark')) {
-    $modalFave.className = 'modal-favorites hidden';
-  } else if (e.target.matches('.view-list')) {
-    $modalFave.className = 'modal-favorites hidden';
-    pageSwap('favorites');
-  } else if (e.target.matches('.add-note')) {
-    $modalFave.className = 'modal-favorites hidden';
-    // $modalNote.className = 'modal-notes';
+}
+function footerNotesFave(boolean) {
+  if (boolean === true) {
+    $footerNotes.className = 'footer-notes';
+  } else {
+    $footerNotes.className = 'footer-notes hidden';
   }
-});
-// Add data to FAVORITES page
+}
 function renderFavorite(favorite) {
   const $newFavorite = document.createElement('div');
+  $newFavorite.setAttribute('id', favorite.faveID);
   $newFavorite.className = 'new-favorite';
   const $div1 = document.createElement('div');
   $div1.className = 'row-date';
@@ -237,6 +182,7 @@ function renderFavorite(favorite) {
   const $div10 = document.createElement('div');
   $div10.className = 'column-auto fave-notes';
   const $notes = document.createElement('p');
+  $notes.className = 'favorite-notes';
   $notes.textContent = 'NOTES';
   $div10.appendChild($notes);
   $div9.appendChild($div10);
@@ -246,23 +192,13 @@ function renderFavorite(favorite) {
   const $delete = document.createElement('p');
   $delete.textContent = 'Remove';
   $div11.appendChild($delete);
-  $div9.appendChild($div11);
 
+  $div9.appendChild($div11);
   $div5.appendChild($div9);
   $div3.appendChild($div5);
-
   $newFavorite.appendChild($div3);
-
   return $newFavorite;
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-  const $favoriteList = document.querySelector('.favorite-list');
-  for (let i = 0; i < data.favorites.length; i++) {
-    $favoriteList.appendChild(renderFavorite(data.favorites[i]));
-  }
-});
-
 function viewFavorite(favorite) {
   const $dateDiv = document.createElement('div');
   $dateDiv.className = 'date';
@@ -303,26 +239,160 @@ function viewFavorite(favorite) {
   $explDiv.appendChild($explanation);
 }
 
-$favePage.addEventListener('click', function (e) {
-  for (let i = 0; i < data.favorites.length; i++) {
-    if (e.target.textContent === data.favorites[i].title) {
-      $favePage.className = 'container fave-page hidden';
-      $mainPage.className = 'container main-page';
-      viewFavorite(data.favorites[i]);
-      checkFavorite();
-    }
+$modalNotes.addEventListener('click', function (e) {
+  if (e.target.matches('.fa-xmark')) {
+    viewModal('none');
+  }
+});
+$modalDate.addEventListener('click', function (e) {
+  if (e.target.matches('.fa-xmark')) {
+    viewModal('none');
   }
 });
 
 function checkFavorite() {
   const $date = document.querySelector('.date');
-  // console.log($date);
   for (let i = 0; i < data.favorites.length; i++) {
     if ($date.textContent === data.favorites[i].date) {
       starIconFave(true);
+      footerNotesFave(true);
       return true;
     } else {
       starIconFave(false);
+      footerNotesFave(false);
     }
+  } return false;
+}
+function viewModal(modal) {
+  if (modal === 'search') {
+    $modalDate.className = 'form-date';
+    $modalFave.className = 'modal-favorites hidden';
+    $modalNotes.className = 'modal-notes hidden';
+  } else if (modal === 'favorites') {
+    $modalDate.className = 'form-date hidden';
+    $modalFave.className = 'modal-favorites';
+    $modalNotes.className = 'modal-notes hidden';
+  } else if (modal === 'notes') {
+    $modalDate.className = 'form-date hidden';
+    $modalFave.className = 'modal-favorites hidden';
+    $modalNotes.className = 'modal-notes';
+  } else if (modal === 'none') {
+    $modalDate.className = 'form-date hidden';
+    $modalFave.className = 'modal-favorites hidden';
+    $modalNotes.className = 'modal-notes hidden';
   }
 }
+
+$dateForm.addEventListener('submit', ajaxRequestDate);
+$header.addEventListener('click', function (e) {
+  pageSwap('main');
+}
+);
+$rowFooter.addEventListener('click', function (event) {
+  if (event.target.matches('.search')) {
+    viewModal('search');
+  } else if (event.target.matches('.notes')) {
+    viewModal('notes');
+  }
+});
+$mainPage.addEventListener('click', function (event) {
+  if (event.target.matches('.fa-regular.fa-star') && checkFavorite() !== true) {
+    const $date = document.querySelector('.date');
+    const $picture = document.querySelector('.picture');
+    const $title = document.querySelector('.title');
+    const $credit = document.querySelector('.credit');
+    const $explanation = document.querySelector('.explanation');
+
+    const favorite = {
+      date: $date.textContent,
+      pictureUrl: $picture.src,
+      title: $title.textContent,
+      credit: $credit.textContent,
+      explanation: $explanation.textContent
+    };
+    favorite.notes = '';
+    favorite.faveID = data.nextFaveID;
+    data.nextFaveID++;
+
+    starIconFave(true);
+    footerNotesFave(true);
+    viewModal('favorites');
+
+    data.favorites.unshift(favorite);
+    const $favoriteList = document.querySelector('.favorite-list');
+    $favoriteList.prepend(renderFavorite(favorite));
+
+  } else if (event.target.matches('.favorites')) {
+    pageSwap('favorites');
+  } else if (event.target.matches('.notes') && checkFavorite() === true) {
+    viewModal('notes');
+    const $date = document.querySelector('.date');
+    const $textArea = document.querySelector('#notescontent');
+
+    for (let i = 0; i < data.favorites.length; i++) {
+      if ($date.textContent === data.favorites[i].date) {
+        $textArea.textContent = data.favorites[i].notes;
+      }
+    }
+  }
+});
+$modalFave.addEventListener('click', function (e) {
+  if (e.target.matches('.fa-xmark')) {
+    viewModal('none');
+  } else if (e.target.matches('.view-list')) {
+    viewModal('none');
+    pageSwap('favorites');
+  } else if (e.target.matches('.add-note')) {
+    viewModal('notes');
+    const $textArea = document.querySelector('#notescontent');
+    $textArea.textContent = '';
+  }
+});
+
+const $notesForm = document.querySelector('.form-notes');
+$notesForm.addEventListener('submit', function (event) {
+  event.preventDefault();
+  const $date = document.querySelector('.date');
+  for (let i = 0; i < data.favorites.length; i++) {
+    if ($date.textContent === data.favorites[i].date) {
+      data.favorites[i].notes = $notesForm.elements.notescontent.value;
+    }
+  }
+  viewModal('none');
+  $notesForm.reset();
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const $favoriteList = document.querySelector('.favorite-list');
+  for (let i = 0; i < data.favorites.length; i++) {
+    $favoriteList.appendChild(renderFavorite(data.favorites[i]));
+  }
+});
+
+$favePage.addEventListener('mouseover', function (e) {
+  const $allFavorites = document.querySelectorAll('.new-favorite');
+  for (let i = 0; i < $allFavorites.length; i++) {
+    const $eachFavorite = $allFavorites[i];
+    $eachFavorite.addEventListener('click', function (e) {
+      if (e.target.matches('.favorite-notes')) {
+        viewModal('notes');
+        const $textArea = document.querySelector('#notescontent');
+        for (let j = 0; j < data.favorites.length; j++) {
+          if (Number($eachFavorite.getAttribute('id')) === data.favorites[j].faveID) {
+            $textArea.textContent = data.favorites[i].notes;
+          }
+        }
+      } else if (e.target.matches('.favorite-title')) {
+        for (let j = 0; j < data.favorites.length; j++) {
+          if (Number($eachFavorite.getAttribute('id')) === data.favorites[j].faveID) {
+            $favePage.className = 'container fave-page hidden';
+            $mainPage.className = 'container main-page';
+            viewFavorite(data.favorites[j]);
+            checkFavorite();
+          }
+        }
+      }
+    });
+  }
+}
+);
