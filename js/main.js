@@ -110,6 +110,7 @@ function pageSwap(page) {
   if (page === 'favorites') {
     $favePage.className = 'container fave-page';
     $mainPage.className = 'container main-page hidden';
+    // queryFavorite();
   } else if (page === 'main') {
     window.location.reload();
     checkFavorite();
@@ -369,30 +370,30 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-$favePage.addEventListener('mouseover', function (e) {
-  const $allFavorites = document.querySelectorAll('.new-favorite');
-  for (let i = 0; i < $allFavorites.length; i++) {
-    const $eachFavorite = $allFavorites[i];
-    $eachFavorite.addEventListener('click', function (e) {
-      if (e.target.matches('.favorite-notes')) {
-        viewModal('notes');
-        const $textArea = document.querySelector('#notescontent');
-        for (let j = 0; j < data.favorites.length; j++) {
-          if (Number($eachFavorite.getAttribute('id')) === data.favorites[j].faveID) {
-            $textArea.textContent = data.favorites[i].notes;
-          }
-        }
-      } else if (e.target.matches('.favorite-title')) {
-        for (let j = 0; j < data.favorites.length; j++) {
-          if (Number($eachFavorite.getAttribute('id')) === data.favorites[j].faveID) {
-            $favePage.className = 'container fave-page hidden';
-            $mainPage.className = 'container main-page';
-            viewFavorite(data.favorites[j]);
-            checkFavorite();
-          }
+// function queryFavorite() {
+const $allFavorites = document.querySelectorAll('.new-favorite');
+for (let i = 0; i < $allFavorites.length; i++) {
+  const $eachFavorite = $allFavorites[i];
+  $eachFavorite.addEventListener('click', function (e) {
+    // console.log($eachFavorite);
+    if (e.target.matches('.favorite-notes')) {
+      viewModal('notes');
+      const $textArea = document.querySelector('#notescontent');
+      for (let j = 0; j < data.favorites.length; j++) {
+        if (Number($eachFavorite.getAttribute('id')) === data.favorites[j].faveID) {
+          $textArea.textContent = data.favorites[i].notes;
         }
       }
-    });
-  }
+    } else if (e.target.matches('.favorite-title')) {
+      for (let j = 0; j < data.favorites.length; j++) {
+        if (Number($eachFavorite.getAttribute('id')) === data.favorites[j].faveID) {
+          $favePage.className = 'container fave-page hidden';
+          $mainPage.className = 'container main-page';
+          viewFavorite(data.favorites[j]);
+          checkFavorite();
+        }
+      }
+    }
+  });
 }
-);
+// }
