@@ -107,14 +107,9 @@ function ajaxRequestDate(event) {
 }
 function pageSwap(page) {
   viewModal('none');
-  const $modalNotesFave = document.querySelector('.modal-notes-fave');
-  $modalNotesFave.className = 'modal-notes-fave hidden';
-
   if (page === 'favorites') {
     $favePage.className = 'container fave-page';
     $mainPage.className = 'container main-page hidden';
-    favePageQuery();
-
   } else if (page === 'main') {
     window.location.reload();
     checkFavorite();
@@ -195,46 +190,14 @@ function renderFavorite(favorite) {
   const $div11 = document.createElement('div');
   $div11.className = 'column-auto fave-delete';
   const $delete = document.createElement('p');
+  $delete.className = 'favorite-delete';
   $delete.textContent = 'Remove';
   $div11.appendChild($delete);
 
   $div9.appendChild($div11);
   $div5.appendChild($div9);
   $div3.appendChild($div5);
-
-  const $div12 = document.createElement('div');
-  $div12.className = 'modal-notes-fave hidden';
-  const $i = document.createElement('i');
-  $i.className = 'fa-solid fa-xmark';
-  $div12.appendChild($i);
-
-  const $form = document.createElement('form');
-  $form.className = 'form-notes-fave';
-  $form.setAttribute('id', favorite.faveID);
-  $div12.appendChild($form);
-  const $notesHeading = document.createElement('p');
-  $notesHeading.textContent = 'NOTES:';
-  $form.appendChild($notesHeading);
-  const $div13 = document.createElement('div');
-  $div13.className = 'notes-container';
-
-  const $textArea = document.createElement('textarea');
-  $textArea.setAttribute('id', 'notescontentfave');
-  $textArea.setAttribute('rows', '10');
-  $textArea.setAttribute('cols', '30');
-  $textArea.setAttribute('placeholder', 'Add notes here...');
-  $div13.appendChild($textArea);
-  $form.appendChild($div13);
-
-  const $input = document.createElement('input');
-  $input.setAttribute('type', 'submit');
-  $input.className = 'notes-save';
-  $input.setAttribute('value', 'SAVE');
-  $form.appendChild($input);
-  $div12.appendChild($form);
-
   $newFavorite.appendChild($div3);
-  $newFavorite.appendChild($div12);
   return $newFavorite;
 }
 function viewFavorite(favorite) {
@@ -282,7 +245,6 @@ $modalNotes.addEventListener('click', function (e) {
     viewModal('none');
   }
 });
-
 $modalDate.addEventListener('click', function (e) {
   if (e.target.matches('.fa-xmark')) {
     viewModal('none');
@@ -375,7 +337,6 @@ $mainPage.addEventListener('click', function (event) {
     }
   }
 });
-
 $modalFave.addEventListener('click', function (e) {
   if (e.target.matches('.fa-xmark')) {
     viewModal('none');
@@ -409,57 +370,33 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-function favePageQuery() {
-  const $modalNotesFave = document.querySelector('.modal-notes-fave');
-  $modalNotesFave.addEventListener('click', function (e) {
-    if (e.target.matches('.fa-xmark')) {
-      viewModal('none');
-      $modalNotesFave.className = 'modal-notes-fave hidden';
+$favePage.addEventListener('click', function (event) {
+  if (event.target.matches('.favorite-notes')) {
+    const faveID = event.target.closest('.new-favorite').id;
+    const favorite = data.favorites.find(fave => fave.faveID === parseInt(faveID));
+    if (favorite) {
+      viewFavorite(favorite);
+      viewModal('notes');
+      const $textArea = document.querySelector('#notescontent');
+      $textArea.textContent = favorite.notes;
     }
-  });
-
-  const $formNotesFaves = document.querySelectorAll('.form-notes-fave');
-  for (let i = 0; i < $formNotesFaves.length; i++) {
-    const item = $formNotesFaves[i];
-    item.addEventListener('submit', function (e) {
-      e.preventDefault();
-      // console.log(item);
-      for (let j = 0; j < data.favorites.length; j++) {
-        if (Number(item.getAttribute('id')) === data.favorites[j].faveID) {
-          data.favorites[j].notes = item.elements.notescontentfave.value;
-          viewModal('none');
-          item.reset();
-          $modalNotesFave.className = 'modal-notes-fave hidden';
-        }
-      }
-    });
+  } else if (event.target.matches('.favorite-title')) {
+    const faveID = event.target.closest('.new-favorite').id;
+    const favorite = data.favorites.find(fave => fave.faveID === parseInt(faveID));
+    if (favorite) {
+      $favePage.className = 'container fave-page hidden';
+      $mainPage.className = 'container main-page';
+      viewFavorite(favorite);
+      checkFavorite();
+    }
+  } else if (event.target.matches('.favorite-delete')) {
+    const $favoriteToRemove = event.target.closest('.new-favorite');
+    const faveID = $favoriteToRemove.id;
+    const favorite = data.favorites.find(fave => fave.faveID === parseInt(faveID));
+    if (favorite) {
+      const index = data.favorites.indexOf(favorite);
+      data.favorites.splice(index, 1);
+    }
+    $favoriteToRemove.remove();
   }
-
-  const $allFavorites = document.querySelectorAll('.new-favorite');
-  for (let i = 0; i < $allFavorites.length; i++) {
-    const $each = $allFavorites[i];
-    $each.addEventListener('click', function (e) {
-      // console.log($each, 'fave event listener');
-      if (e.target.matches('.favorite-notes')) {
-        $modalNotesFave.className = 'modal-notes-fave';
-        const $textArea = document.querySelector('#notescontentfave');
-        for (let j = 0; j < data.favorites.length; j++) {
-          if (Number($each.getAttribute('id')) === data.favorites[j].faveID) {
-            const $formNotesFave = document.querySelector('.form-notes-fave');
-            $formNotesFave.setAttribute('id', data.favorites[j].faveID);
-            $textArea.textContent = data.favorites[j].notes;
-          }
-        }
-      } else if (e.target.matches('.favorite-title')) {
-        for (let j = 0; j < data.favorites.length; j++) {
-          if (Number($each.getAttribute('id')) === data.favorites[j].faveID) {
-            $favePage.className = 'container fave-page hidden';
-            $mainPage.className = 'container main-page';
-            viewFavorite(data.favorites[j]);
-            checkFavorite();
-          }
-        }
-      }
-    });
-  }
-}
+});
