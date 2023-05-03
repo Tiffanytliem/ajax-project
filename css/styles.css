@@ -1,14 +1,14 @@
 body {
-  background-color: #021f4b;
+  background-color: black;
   font-family: "Space Mono", sans-serif;
-  color: #e3e5ed;
+  color: lightgrey;
   margin: auto 14px;
   font-size: 12px;
 }
 
 p,
 i {
-  color: #cdd1e1;
+  color: lightgrey;
 }
 
 h1 {
@@ -51,7 +51,7 @@ i {
 
 .title,
 .favorite-title {
-  font-family: Archivo, sans-serif;
+  font-family: "Space Mono", Archivo, sans-serif;
   font-size: 24px;
   font-weight: 400;
   text-align: center;
@@ -79,7 +79,7 @@ i {
   position: fixed;
   width: 240px;
   height: 200px;
-  background-color: rgba(2, 31, 75, 0.85);
+  background-color: rgba(0, 0, 0, 0.75);
   border: solid 0.5px grey;
   border-radius: 2px;
   bottom: calc(30vh - 100px);
@@ -127,7 +127,7 @@ input {
   position: absolute;
   left: calc(50% - 134px);
   bottom: calc(15vh - 50px);
-  background-color: #4c3b71;
+  background-color: rgba(0, 0, 0, 0.75);
   border: solid 0.5px grey;
   border-radius: 2px;
 }
@@ -138,7 +138,7 @@ input {
   position: fixed;
   left: calc(50% - 173px);
   bottom: calc(40vh - 122px);
-  background-color: #021f4b;
+  background-color: rgba(0, 0, 0, 0.75);
   border: solid 0.5px grey;
   border-radius: 2px;
 }
@@ -147,7 +147,7 @@ input {
   color: #e3e5ed;
   width: 316px;
   height: 160px;
-  background-color: #021f4b;
+  background-color: rgba(0, 0, 0, 0.75);
   border: solid 0.5px grey;
   border-radius: 2px;
   padding: 10px;
@@ -242,7 +242,7 @@ h2 {
 }
 
 h2 span {
-  background: #021f4b;
+  background: darkgrey;
   padding-right: 15px;
 }
 
@@ -347,7 +347,8 @@ h2 span {
 
   h1 {
     font-size: 41px;
-    margin-top: 33px;
+    margin-top: 40px;
+    margin-bottom: 40px;
   }
 
   img {
