@@ -1,14 +1,20 @@
 body {
   background-color: black;
   font-family: "Space Mono", sans-serif;
-  color: lightgrey;
+  color: rgb(197, 197, 197);
   margin: auto 14px;
   font-size: 12px;
 }
 
+p {
+  font-family: "Space Mono", sans-serif;
+  letter-spacing: 1.5px;
+}
+
 p,
 i {
-  color: lightgrey;
+  color: rgb(197, 197, 197);
+  line-height: 22px;
 }
 
 h1 {
@@ -242,7 +248,7 @@ h2 {
 }
 
 h2 span {
-  background: darkgrey;
+  background: black;
   padding-right: 15px;
 }
 
