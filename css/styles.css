@@ -2,7 +2,7 @@ body {
   background-color: black;
   font-family: "Space Mono", sans-serif;
   color: rgb(197, 197, 197);
-  margin: auto 20px;
+  margin: auto 14px;
   font-size: 15px;
 }
 
@@ -70,8 +70,6 @@ i {
 
 .favorite-title {
   padding: 10px 5px;
-  font-size: 22px;
-  line-height: 28px;
 }
 
 .credit {
@@ -257,8 +255,8 @@ h2 span {
 
 .favorite-explanation {
   overflow: hidden;
-  max-height: 54px;
-  line-height: 18px;
+  max-height: 84px;
+  line-height: 28px;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   text-overflow: ellipsis;
