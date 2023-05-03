@@ -175,7 +175,8 @@ input {
 }
 
 .notes-save:hover,
-.favorite-notes:hover {
+.favorite-notes:hover,
+.favorite-delete {
   cursor: pointer;
 }
 

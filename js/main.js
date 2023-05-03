@@ -190,6 +190,7 @@ function renderFavorite(favorite) {
   const $div11 = document.createElement('div');
   $div11.className = 'column-auto fave-delete';
   const $delete = document.createElement('p');
+  $delete.className = 'favorite-delete';
   $delete.textContent = 'Remove';
   $div11.appendChild($delete);
 
@@ -369,30 +370,33 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-$favePage.addEventListener('mouseover', function (e) {
-  const $allFavorites = document.querySelectorAll('.new-favorite');
-  for (let i = 0; i < $allFavorites.length; i++) {
-    const $eachFavorite = $allFavorites[i];
-    $eachFavorite.addEventListener('click', function (e) {
-      if (e.target.matches('.favorite-notes')) {
-        viewModal('notes');
-        const $textArea = document.querySelector('#notescontent');
-        for (let j = 0; j < data.favorites.length; j++) {
-          if (Number($eachFavorite.getAttribute('id')) === data.favorites[j].faveID) {
-            $textArea.textContent = data.favorites[i].notes;
-          }
-        }
-      } else if (e.target.matches('.favorite-title')) {
-        for (let j = 0; j < data.favorites.length; j++) {
-          if (Number($eachFavorite.getAttribute('id')) === data.favorites[j].faveID) {
-            $favePage.className = 'container fave-page hidden';
-            $mainPage.className = 'container main-page';
-            viewFavorite(data.favorites[j]);
-            checkFavorite();
-          }
-        }
-      }
-    });
+$favePage.addEventListener('click', function (event) {
+  if (event.target.matches('.favorite-notes')) {
+    const faveID = event.target.closest('.new-favorite').id;
+    const favorite = data.favorites.find(fave => fave.faveID === parseInt(faveID));
+    if (favorite) {
+      viewFavorite(favorite);
+      viewModal('notes');
+      const $textArea = document.querySelector('#notescontent');
+      $textArea.textContent = favorite.notes;
+    }
+  } else if (event.target.matches('.favorite-title')) {
+    const faveID = event.target.closest('.new-favorite').id;
+    const favorite = data.favorites.find(fave => fave.faveID === parseInt(faveID));
+    if (favorite) {
+      $favePage.className = 'container fave-page hidden';
+      $mainPage.className = 'container main-page';
+      viewFavorite(favorite);
+      checkFavorite();
+    }
+  } else if (event.target.matches('.favorite-delete')) {
+    const $favoriteToRemove = event.target.closest('.new-favorite');
+    const faveID = $favoriteToRemove.id;
+    const favorite = data.favorites.find(fave => fave.faveID === parseInt(faveID));
+    if (favorite) {
+      const index = data.favorites.indexOf(favorite);
+      data.favorites.splice(index, 1);
+    }
+    $favoriteToRemove.remove();
   }
-}
-);
+});
