@@ -91,7 +91,7 @@ i {
   background-color: rgba(0, 0, 0, 0.75);
   border: solid 0.5px grey;
   border-radius: 2px;
-  bottom: calc(30vh - 100px);
+  bottom: calc(40vh - 100px);
   left: calc(50% - 120px);
 }
 
@@ -133,9 +133,9 @@ input {
 .modal-favorites {
   width: 268px;
   height: 105px;
-  position: absolute;
+  position: fixed;
   left: calc(50% - 134px);
-  bottom: calc(15vh - 50px);
+  bottom: calc(40vh - 50px);
   background-color: rgba(0, 0, 0, 0.75);
   border: solid 0.5px grey;
   border-radius: 2px;
@@ -436,10 +436,10 @@ h2 span {
   .modal-favorites {
     width: 330px;
     height: 130px;
-    position: absolute;
+    position: fixed;
     left: calc(50% - 165px);
-    top: calc(50vh - 65px);
-    background-color: #4c3b71;
+    top: calc(60vh - 65px);
+    background-color: rgba(0, 0, 0, 0.75);
     border: solid 0.5px grey;
     border-radius: 2px;
   }
