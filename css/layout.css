@@ -29,17 +29,6 @@ img {
   flex-basis: auto;
 }
 
-@media screen and (min-width: 970px) {
-  .column-photo,
-  .column-date {
-    flex-basis: 55%;
-  }
-
-  .column-info {
-    flex-basis: 40%;
-  }
-}
-
 @media screen and (min-width: 1152px) {
   .column-photo,
   .column-date {
