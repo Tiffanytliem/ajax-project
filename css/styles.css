@@ -19,7 +19,7 @@ body {
 
 .expl,
 .fave-expl {
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   font-family: "Space Mono", sans-serif;
 
   /* letter-spacing: 1.5px; */
@@ -74,6 +74,7 @@ i {
 
 .title,
 .favorite-title {
+  /* text-transform: uppercase; */
   font-family: "Space Mono", Archivo, sans-serif;
   font-size: 28px;
   line-height: 35px;
