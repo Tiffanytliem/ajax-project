@@ -56,7 +56,7 @@ ajaxRequest();
 function ajaxRequestDate(event) {
   event.preventDefault();
   const inputDate = event.target.elements.date.value;
-  var xhr = new XMLHttpRequest();
+  const xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://api.nasa.gov/planetary/apod?api_key=6PtagfFhUrtJhGiexIbwapgwVFbcE8MGlKW0QG6L&date=' + inputDate);
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
