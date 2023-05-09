@@ -60,7 +60,7 @@ img {
 
 .row-footer {
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-around;
   text-align: center;
   margin: auto;
   font-weight: 700;
