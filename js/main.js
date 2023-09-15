@@ -21,14 +21,27 @@ function ajaxRequest() {
     const $columnDate = document.querySelector('.column-date');
     $columnDate.appendChild($dateDiv);
 
-    const $anchor = document.createElement('a');
-    $anchor.setAttribute('href', xhrResponse.hdurl);
-    const $image = document.createElement('img');
-    $image.setAttribute('src', xhrResponse.hdurl);
-    $image.className = 'picture';
-    $anchor.appendChild($image);
-    const $columnPhoto = document.querySelector('.column-photo');
-    $columnPhoto.appendChild($anchor);
+    if (xhrResponse.media_type === 'image') {
+      const $anchor = document.createElement('a');
+      $anchor.setAttribute('href', xhrResponse.hdurl);
+      const $image = document.createElement('img');
+      $image.setAttribute('src', xhrResponse.hdurl);
+      $image.className = 'picture';
+      $anchor.appendChild($image);
+      const $columnPhoto = document.querySelector('.column-photo');
+      $columnPhoto.removeChild($columnPhoto.lastChild);
+      $columnPhoto.appendChild($anchor);
+    }
+
+    if (xhrResponse.media_type === 'video') {
+      const $iframe = document.createElement('iframe');
+      $iframe.setAttribute('src', xhrResponse.url);
+      $iframe.textContent = 'Your BOOTY does not support the video tag';
+      $iframe.className = 'video';
+      const $columnPhoto = document.querySelector('.column-photo');
+      $columnPhoto.removeChild($columnPhoto.lastChild);
+      $columnPhoto.appendChild($iframe);
+    }
 
     const $title = document.createElement('h3');
     $title.setAttribute('class', 'title');
@@ -66,42 +79,65 @@ function ajaxRequestDate(event) {
     $dateDiv.className = 'date';
     $dateDiv.textContent = xhrResponse.date;
     const $columnDate = document.querySelector('.column-date');
-    $columnDate.removeChild($columnDate.lastChild);
+    if ($columnDate.lastChild) {
+      $columnDate.removeChild($columnDate.lastChild);
+    }
     $columnDate.appendChild($dateDiv);
 
-    const $anchor = document.createElement('a');
-    $anchor.setAttribute('href', xhrResponse.hdurl);
-    const $image = document.createElement('img');
-    $image.setAttribute('src', xhrResponse.hdurl);
-    $image.className = 'picture';
-    $anchor.appendChild($image);
-    const $columnPhoto = document.querySelector('.column-photo');
-    $columnPhoto.removeChild($columnPhoto.lastChild);
-    $columnPhoto.appendChild($anchor);
+    if (xhrResponse.media_type === 'image') {
+      const $anchor = document.createElement('a');
+      $anchor.setAttribute('href', xhrResponse.hdurl);
+      const $image = document.createElement('img');
+      $image.setAttribute('src', xhrResponse.hdurl);
+      $image.className = 'picture';
+      $anchor.appendChild($image);
+      const $columnPhoto = document.querySelector('.column-photo');
+      if ($columnPhoto.lastChild) {
+        $columnPhoto.removeChild($columnPhoto.lastChild);
+      }
+      $columnPhoto.appendChild($anchor);
+    }
+
+    if (xhrResponse.media_type === 'video') {
+      const $iframe = document.createElement('iframe');
+      $iframe.setAttribute('src', xhrResponse.url);
+      $iframe.textContent = 'Your browser does not support the video tag';
+      $iframe.className = 'video';
+      const $columnPhoto = document.querySelector('.column-photo');
+      if ($columnPhoto.lastChild) {
+        $columnPhoto.removeChild($columnPhoto.lastChild);
+      }
+      $columnPhoto.appendChild($iframe);
+    }
 
     const $title = document.createElement('h3');
     $title.setAttribute('class', 'title');
     $title.textContent = xhrResponse.title;
     const $titleDiv = document.querySelector('.column-full.tle');
-    $titleDiv.removeChild($titleDiv.lastChild);
+    if ($titleDiv.lastChild) {
+      $titleDiv.removeChild($titleDiv.lastChild);
+    }
     $titleDiv.appendChild($title);
 
     const $credit = document.createElement('p');
     $credit.className = 'credit';
     $credit.textContent = 'Image Credit & Copyright: ' + xhrResponse.copyright;
     const $credDiv = document.querySelector('.column-full.cred');
-    $credDiv.removeChild($credDiv.lastChild);
+    if ($credDiv.lastChild) {
+      $credDiv.removeChild($credDiv.lastChild);
+    }
     $credDiv.appendChild($credit);
 
     const $explanation = document.createElement('p');
     $explanation.className = 'explanation';
     $explanation.textContent = 'Explanation: ' + xhrResponse.explanation;
     const $explDiv = document.querySelector('.column-full.expl');
-    $explDiv.removeChild($explDiv.lastChild);
+    if ($explDiv.lastChild) {
+      $explDiv.removeChild($explDiv.lastChild);
+    }
     $explDiv.appendChild($explanation);
     checkFavorite();
     $modalDate.className = 'form-date hidden';
-
   });
   xhr.send();
 }
