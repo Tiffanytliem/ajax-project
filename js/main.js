@@ -21,14 +21,23 @@ function ajaxRequest() {
     const $columnDate = document.querySelector('.column-date');
     $columnDate.appendChild($dateDiv);
 
-    const $anchor = document.createElement('a');
-    $anchor.setAttribute('href', xhrResponse.hdurl);
-    const $image = document.createElement('img');
-    $image.setAttribute('src', xhrResponse.hdurl);
-    $image.className = 'picture';
-    $anchor.appendChild($image);
-    const $columnPhoto = document.querySelector('.column-photo');
-    $columnPhoto.appendChild($anchor);
+    if (xhrResponse.media_type === 'image') {
+      const $anchor = document.createElement('a');
+      $anchor.setAttribute('href', xhrResponse.hdurl);
+      const $image = document.createElement('img');
+      $image.setAttribute('src', xhrResponse.hdurl);
+      $image.className = 'media';
+      $anchor.appendChild($image);
+      const $columnPhoto = document.querySelector('.column-photo');
+      $columnPhoto.appendChild($anchor);
+    } else if (xhrResponse.media_type === 'video') {
+      const $iframe = document.createElement('iframe');
+      $iframe.className = 'media';
+      // $iframe.setAttribute('allowfullscreen');
+      $iframe.setAttribute('src', xhrResponse.url);
+      const $columnPhoto = document.querySelector('.column-photo');
+      $columnPhoto.appendChild($iframe);
+    }
 
     const $title = document.createElement('h3');
     $title.setAttribute('class', 'title');
@@ -38,7 +47,11 @@ function ajaxRequest() {
 
     const $credit = document.createElement('p');
     $credit.className = 'credit';
-    $credit.textContent = 'Image Credit & Copyright: ' + xhrResponse.copyright;
+    if (xhrResponse.copyright) {
+      $credit.textContent = 'Copyright: ' + xhrResponse.copyright;
+    } else {
+      $credit.textContent = 'Copyright: ' + 'unknown';
+    }
     const $credDiv = document.querySelector('.column-full.cred');
     $credDiv.appendChild($credit);
 
@@ -69,15 +82,25 @@ function ajaxRequestDate(event) {
     $columnDate.removeChild($columnDate.lastChild);
     $columnDate.appendChild($dateDiv);
 
-    const $anchor = document.createElement('a');
-    $anchor.setAttribute('href', xhrResponse.hdurl);
-    const $image = document.createElement('img');
-    $image.setAttribute('src', xhrResponse.hdurl);
-    $image.className = 'picture';
-    $anchor.appendChild($image);
-    const $columnPhoto = document.querySelector('.column-photo');
-    $columnPhoto.removeChild($columnPhoto.lastChild);
-    $columnPhoto.appendChild($anchor);
+    if (xhrResponse.media_type === 'image') {
+      const $anchor = document.createElement('a');
+      $anchor.setAttribute('href', xhrResponse.hdurl);
+      const $image = document.createElement('img');
+      $image.setAttribute('src', xhrResponse.hdurl);
+      $image.className = 'media';
+      $anchor.appendChild($image);
+      const $columnPhoto = document.querySelector('.column-photo');
+      $columnPhoto.removeChild($columnPhoto.lastChild);
+      $columnPhoto.appendChild($anchor);
+    } else if (xhrResponse.media_type === 'video') {
+      const $iframe = document.createElement('iframe');
+      $iframe.setAttribute('src', xhrResponse.url);
+      $iframe.className = 'media';
+      $iframe.setAttribute('allow', 'fullscreen');
+      const $columnPhoto = document.querySelector('.column-photo');
+      $columnPhoto.removeChild($columnPhoto.lastChild);
+      $columnPhoto.appendChild($iframe);
+    }
 
     const $title = document.createElement('h3');
     $title.setAttribute('class', 'title');
@@ -88,7 +111,11 @@ function ajaxRequestDate(event) {
 
     const $credit = document.createElement('p');
     $credit.className = 'credit';
-    $credit.textContent = 'Image Credit & Copyright: ' + xhrResponse.copyright;
+    if (xhrResponse.copyright) {
+      $credit.textContent = 'Copyright: ' + xhrResponse.copyright;
+    } else {
+      $credit.textContent = 'Copyright: ' + 'unknown';
+    }
     const $credDiv = document.querySelector('.column-full.cred');
     $credDiv.removeChild($credDiv.lastChild);
     $credDiv.appendChild($credit);
@@ -151,7 +178,7 @@ function renderFavorite(favorite) {
   $div4.className = 'favorite-column-photo';
   const $image = document.createElement('img');
   $image.className = 'favorite-image';
-  $image.setAttribute('src', favorite.pictureUrl);
+  $image.setAttribute('src', favorite.mediaUrl);
   $div4.appendChild($image);
   $div3.appendChild($div4);
 
@@ -209,10 +236,10 @@ function viewFavorite(favorite) {
   $columnDate.appendChild($dateDiv);
 
   const $anchor = document.createElement('a');
-  $anchor.setAttribute('href', favorite.pictureUrl);
+  $anchor.setAttribute('href', favorite.mediaUrl);
   const $image = document.createElement('img');
-  $image.setAttribute('src', favorite.pictureUrl);
-  $image.className = 'picture';
+  $image.setAttribute('src', favorite.mediaUrl);
+  $image.className = 'media';
   $anchor.appendChild($image);
   const $columnPhoto = document.querySelector('.column-photo');
   $columnPhoto.removeChild($columnPhoto.lastChild);
@@ -299,14 +326,14 @@ $rowFooter.addEventListener('click', function (event) {
 $mainPage.addEventListener('click', function (event) {
   if (event.target.matches('.fa-regular.fa-star') && checkFavorite() !== true) {
     const $date = document.querySelector('.date');
-    const $picture = document.querySelector('.picture');
+    const $media = document.querySelector('.media');
     const $title = document.querySelector('.title');
     const $credit = document.querySelector('.credit');
     const $explanation = document.querySelector('.explanation');
 
     const favorite = {
       date: $date.textContent,
-      pictureUrl: $picture.src,
+      mediaUrl: $media.src,
       title: $title.textContent,
       credit: $credit.textContent,
       explanation: $explanation.textContent
