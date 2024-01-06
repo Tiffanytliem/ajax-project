@@ -30,13 +30,9 @@ img {
 }
 
 @media screen and (min-width: 1152px) {
-  .column-photo,
-  .column-date {
-    flex-basis: 65%;
-  }
-
-  .column-info {
-    flex-basis: 31%;
+  main {
+    width: 1152px;
+    margin: auto;
   }
 
   .favorite-column-photo {
